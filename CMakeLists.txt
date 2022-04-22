@@ -5,4 +5,4 @@ set(CMAKE_C_STANDARD 99)
 
 add_compile_options(-g -Wall -pedantic)
 
-add_executable(KSP hello.c)
+add_executable(KSP _njvm.c)
