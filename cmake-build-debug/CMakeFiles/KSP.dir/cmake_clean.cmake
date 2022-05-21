@@ -1,5 +1,5 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/KSP.dir/hello.c.o"
+  "CMakeFiles/KSP.dir/_njvm.c.o"
   "KSP"
   "KSP.pdb"
 )

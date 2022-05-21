@@ -1,1 +1,1 @@
-/usr/bin/cc -g   CMakeFiles/KSP.dir/hello.c.o  -o KSP 
+/usr/bin/cc -g   CMakeFiles/KSP.dir/_njvm.c.o  -o KSP 

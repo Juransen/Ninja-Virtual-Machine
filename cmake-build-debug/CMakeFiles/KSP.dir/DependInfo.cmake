@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/crafz/Clion/KSP/hello.c" "/home/crafz/Clion/KSP/cmake-build-debug/CMakeFiles/KSP.dir/hello.c.o"
+  "/home/crafz/Clion/KSP/_njvm.c" "/home/crafz/Clion/KSP/cmake-build-debug/CMakeFiles/KSP.dir/_njvm.c.o"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 

@@ -123,32 +123,32 @@ KSP/fast:
 	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/build
 .PHONY : KSP/fast
 
-hello.o: hello.c.o
+_njvm.o: _njvm.c.o
 
-.PHONY : hello.o
+.PHONY : _njvm.o
 
 # target to build an object file
-hello.c.o:
-	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/hello.c.o
-.PHONY : hello.c.o
+_njvm.c.o:
+	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/_njvm.c.o
+.PHONY : _njvm.c.o
 
-hello.i: hello.c.i
+_njvm.i: _njvm.c.i
 
-.PHONY : hello.i
+.PHONY : _njvm.i
 
 # target to preprocess a source file
-hello.c.i:
-	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/hello.c.i
-.PHONY : hello.c.i
+_njvm.c.i:
+	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/_njvm.c.i
+.PHONY : _njvm.c.i
 
-hello.s: hello.c.s
+_njvm.s: _njvm.c.s
 
-.PHONY : hello.s
+.PHONY : _njvm.s
 
 # target to generate assembly for a file
-hello.c.s:
-	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/hello.c.s
-.PHONY : hello.c.s
+_njvm.c.s:
+	$(MAKE) -f CMakeFiles/KSP.dir/build.make CMakeFiles/KSP.dir/_njvm.c.s
+.PHONY : _njvm.c.s
 
 # Help Target
 help:
@@ -159,9 +159,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
 	@echo "... KSP"
-	@echo "... hello.o"
-	@echo "... hello.i"
-	@echo "... hello.s"
+	@echo "... _njvm.o"
+	@echo "... _njvm.i"
+	@echo "... _njvm.s"
 .PHONY : help
 
 

@@ -57,27 +57,27 @@ include CMakeFiles/KSP.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/KSP.dir/flags.make
 
-CMakeFiles/KSP.dir/hello.c.o: CMakeFiles/KSP.dir/flags.make
-CMakeFiles/KSP.dir/hello.c.o: ../hello.c
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/crafz/Clion/KSP/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/KSP.dir/hello.c.o"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/KSP.dir/hello.c.o   -c /home/crafz/Clion/KSP/hello.c
+CMakeFiles/KSP.dir/_njvm.c.o: CMakeFiles/KSP.dir/flags.make
+CMakeFiles/KSP.dir/_njvm.c.o: ../_njvm.c
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/crafz/Clion/KSP/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/KSP.dir/_njvm.c.o"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/KSP.dir/_njvm.c.o   -c /home/crafz/Clion/KSP/_njvm.c
 
-CMakeFiles/KSP.dir/hello.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/KSP.dir/hello.c.i"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/crafz/Clion/KSP/hello.c > CMakeFiles/KSP.dir/hello.c.i
+CMakeFiles/KSP.dir/_njvm.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/KSP.dir/_njvm.c.i"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/crafz/Clion/KSP/_njvm.c > CMakeFiles/KSP.dir/_njvm.c.i
 
-CMakeFiles/KSP.dir/hello.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/KSP.dir/hello.c.s"
-	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/crafz/Clion/KSP/hello.c -o CMakeFiles/KSP.dir/hello.c.s
+CMakeFiles/KSP.dir/_njvm.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/KSP.dir/_njvm.c.s"
+	/usr/bin/cc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/crafz/Clion/KSP/_njvm.c -o CMakeFiles/KSP.dir/_njvm.c.s
 
 # Object files for target KSP
 KSP_OBJECTS = \
-"CMakeFiles/KSP.dir/hello.c.o"
+"CMakeFiles/KSP.dir/_njvm.c.o"
 
 # External object files for target KSP
 KSP_EXTERNAL_OBJECTS =
 
-KSP: CMakeFiles/KSP.dir/hello.c.o
+KSP: CMakeFiles/KSP.dir/_njvm.c.o
 KSP: CMakeFiles/KSP.dir/build.make
 KSP: CMakeFiles/KSP.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/crafz/Clion/KSP/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Linking C executable KSP"

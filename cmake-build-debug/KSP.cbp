@@ -76,7 +76,7 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/crafz/Clion/KSP/hello.c">
+		<Unit filename="/home/crafz/Clion/KSP/_njvm.c">
 			<Option target="KSP"/>
 		</Unit>
 		<Unit filename="/home/crafz/Clion/KSP/CMakeLists.txt">
