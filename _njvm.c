@@ -3,6 +3,7 @@
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
+const int buildVersion = 0;
 
 const char* commands[] = {"--help", "--version"};
 
@@ -22,7 +23,6 @@ void commandResponse (char* incomeCommand[], int arraySize){
             if (cmdCmp == 0) { cmdType = i; }
         }
     }
-
 
     switch (cmdType) {
 
@@ -47,8 +47,8 @@ void commandResponse (char* incomeCommand[], int arraySize){
         }
 
         case 1: {
-            printf("1 version\n");
-            printf("Ninja Virtual Machine version 0 (compiled %s, %s)\n", buildDate, buildTime);
+            //printf("1 version\n");
+            printf("Ninja Virtual Machine version %i (compiled %s, %s)\n",buildVersion, buildDate, buildTime);
             break;
 
         }
