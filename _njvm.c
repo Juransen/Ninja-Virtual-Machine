@@ -7,7 +7,7 @@ void commandResponse (char* incomeCommand[]){
 
     int cmdType = -1;
 
-    int arraySize = sizeof(incomeCommand) / sizeof(char*);
+    int arraySize = sizeof((char*) incomeCommand) / sizeof(char*);
 
     if(arraySize > 1) {
 
