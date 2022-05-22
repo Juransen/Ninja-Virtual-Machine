@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <string.h>
 
+const char* buildDate = __DATE__;
+const char* buildTime = __TIME__;
+
 const char* commands[] = {"--help", "--version"};
+
 
 void commandResponse (char* incomeCommand[], int arraySize){
 
@@ -31,21 +35,22 @@ void commandResponse (char* incomeCommand[], int arraySize){
 
         case -1:{
             //printf("-1  invalid command\n");
-            printf("unknown command line argument '%s', try './njvm --help'\n", incomeCommand[1]);
+            printf("unknown command line argument \x1B[31m'%s'\033[0m, try \x1B[31m'./njvm --help'\033[0m\n", incomeCommand[1]);
             break;
         }
 
         case 0: {
             //printf("0 help\n");
-            printf("usage: ./njvm [option] [option] ...\n--version       show version and exit\n"
-                   "--help          show this help and exit\n");
+            printf("usage: ./njvm [option] [option] ...\n--version\tshow version and exit\n"
+                   "--help\t\tshow this help and exit\n");
             break;
         }
 
         case 1: {
             printf("1 version\n");
-            printf("\n");
+            printf("Ninja Virtual Machine version 0 (compiled %s, %s)\n", buildDate, buildTime);
             break;
+
         }
 
     }
