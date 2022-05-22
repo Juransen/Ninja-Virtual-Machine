@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 
+// seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
+
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
 const int buildVersion = 0;
@@ -57,8 +59,6 @@ void commandResponse (char* incomeCommand[], int arraySize){
 }
 
 
-
-// seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
 
 
 int main(int argc, char *argv[]) {
