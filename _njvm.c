@@ -11,19 +11,16 @@ const int buildVersion = 1;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3"};
 
-struct stack{
-    int size;
-    int stack[];
-};
-
-
 void commandResponse (char* incomeCommand[], int arraySize){
 
     int cmdType = -2;
 
+
+    // Wenn min eine Optiopn angegeben wid greift das if
     if(arraySize > 1) {
         cmdType = -1;
 
+        //For prüft das erste Argument
         for (int i = 0; i < sizeof(commands) / sizeof(char *); i++) {
 
             int cmdCmp = strcmp(commands[i], incomeCommand[1]);
