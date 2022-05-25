@@ -11,6 +11,26 @@ const int buildVersion = 1;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3"};
 
+int stack[12];
+int* topOfStack;
+int stackSize;
+
+void pushStack(int data){
+
+    *topOfStack = data;
+    stackSize++;
+    topOfStack++;
+}
+
+int popStack(){
+
+    topOfStack--;
+    int data = *topOfStack;
+    *topOfStack = 0;
+    stackSize--;
+    return data;
+}
+
 void commandResponse (char* incomeCommand[], int arraySize){
 
     int cmdType = -2;
@@ -37,12 +57,12 @@ void commandResponse (char* incomeCommand[], int arraySize){
         }
 
         case -1:{
-            printf("unknown command line argument \x1B[31m'%s'\033[0m, try \x1B[31m'./njvm --help'\033[0m\n", incomeCommand[1]);
+            printf("unknown command line argument \x1B[31m'%s'\033[0m, try \x1B[31m'./njvm_aug0 --help'\033[0m\n", incomeCommand[1]);
             break;
         }
 
         case 0: {
-            printf("usage: ./njvm [option] [option] ..."
+            printf("usage: ./njvm_aug0 [option] [option] ..."
                    "\n--prog1\tselect program 1 to execute"
                    "\n--prog2\tselect program 2 to execute"
                    "\n--prog3\tselect program 3 to execute"
@@ -81,6 +101,8 @@ void commandResponse (char* incomeCommand[], int arraySize){
 }
 
 int main(int argc, char *argv[]) {
+    topOfStack = stack;
+    stackSize = 0;
 
     commandResponse(argv, argc);
 

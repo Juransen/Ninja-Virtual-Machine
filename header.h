@@ -2,6 +2,9 @@
 #define VMSTART printf("Ninja Virtual Machine started\n");
 #define VMSTOP printf("Ninja Virtual Machine stopped\n");
 
+
+//vm instructions
+
 #define HALT 0
 #define PUSHC 1
 #define ADD 2
