@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include "header.h"
 
 // seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
 
@@ -8,7 +9,7 @@ const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
 const int buildVersion = 1;
 
-const char* commands[] = {"--help", "--version"};
+const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3"};
 
 struct stack{
     int size;
@@ -33,8 +34,8 @@ void commandResponse (char* incomeCommand[], int arraySize){
     switch (cmdType) {
 
         default: {
-            printf("Ninja Virtual Machine started\n");
-            printf("Ninja Virtual Machine stopped\n");
+            VMSTART
+            VMSTOP
             break;
         }
 
@@ -44,8 +45,12 @@ void commandResponse (char* incomeCommand[], int arraySize){
         }
 
         case 0: {
-            printf("usage: ./njvm [option] [option] ...\n--version\tshow version and exit\n"
-                   "--help\t\tshow this help and exit\n");
+            printf("usage: ./njvm [option] [option] ..."
+                   "\n--prog1\tselect program 1 to execute"
+                   "\n--prog2\tselect program 2 to execute"
+                   "\n--prog3\tselect program 3 to execute"
+                   "\n--version\tshow version and exit"
+                   "\n--help\t\tshow this help and exit\n");
             break;
         }
 
@@ -55,6 +60,26 @@ void commandResponse (char* incomeCommand[], int arraySize){
 
         }
 
+        case 2:{
+            VMSTART
+            printf("prog1\n");
+            VMSTOP
+            break;
+        }
+
+        case 3:{
+            VMSTART
+            printf("prog2\n");
+            VMSTOP
+            break;
+        }
+
+        case 4:{
+            VMSTART
+            printf("prog3\n");
+            VMSTOP
+            break;
+        }
     }
 }
 

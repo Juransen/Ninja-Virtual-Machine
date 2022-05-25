@@ -1,7 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/KSP.dir/_njvm.c.o"
-  "KSP"
+  "CMakeFiles/KSP.dir/_njvm.c.obj"
+  "CMakeFiles/KSP.dir/_njvm.c.obj.d"
+  "KSP.exe"
+  "KSP.exe.manifest"
   "KSP.pdb"
+  "libKSP.dll.a"
 )
 
 # Per-language clean rules from dependency scanning.
