@@ -11,9 +11,9 @@ const int buildVersion = 1;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3"};
 
-int stack[12];
-int* topOfStack;
-int stackSize;
+uint32_t stack[12];
+uint32_t* topOfStack;
+uint32_t stackSize;
 
 void pushStack(int data){
 
@@ -22,10 +22,10 @@ void pushStack(int data){
     topOfStack++;
 }
 
-int popStack(){
+uint32_t popStack(){
 
     topOfStack--;
-    int data = *topOfStack;
+    uint32_t data = *topOfStack;
     *topOfStack = 0;
     stackSize--;
     return data;
