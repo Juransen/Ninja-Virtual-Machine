@@ -31,7 +31,46 @@ uint32_t popStack(){
     return data;
 }
 
-uint32_t programmMemory[];
+uint32_t addition(uint32_t val1, uint32_t val2){
+
+    uint32_t result = ADDITION(val1, val2);
+    return result;
+}
+
+uint32_t subtraction(uint32_t val1, uint32_t val2){
+
+    uint32_t result = val1 - val2;
+    return result;
+}
+
+uint32_t miltiplication(uint32_t val1, uint32_t val2){
+
+    uint32_t result = val1 * val2;
+    return result;
+}
+
+uint32_t devision(uint32_t val1, uint32_t val2){
+
+    uint32_t result = val1 / val2;
+    return result;
+}
+
+uint32_t modulo(uint32_t val1, uint32_t val2){
+
+    uint32_t result = val1 % val2;
+    return result;
+}
+
+uint32_t readInt(){
+    int input = scanf("%i",&input);
+    return input;
+}
+
+char readChar(){
+    char input = scanf("%c", &input);
+    return input;
+}
+
 
 uint32_t progCode1[] = {
         (PUSHC << 24) | IMMEDIATE(3),

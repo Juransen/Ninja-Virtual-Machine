@@ -18,3 +18,5 @@
 #define WRINT 8
 #define RDCHR 9
 #define WRCHR 10
+
+#define ADDITION(val1, val2) val1 + val2
