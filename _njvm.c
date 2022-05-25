@@ -1,13 +1,19 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdint.h>
 
 // seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
-const int buildVersion = 0;
+const int buildVersion = 1;
 
 const char* commands[] = {"--help", "--version"};
+
+struct stack{
+    int size;
+    int stack[];
+};
 
 
 void commandResponse (char* incomeCommand[], int arraySize){
