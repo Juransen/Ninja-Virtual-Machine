@@ -5,6 +5,8 @@
 
 //vm instructions
 
+#define IMMEDIATE(x) ((x) & 0x00FFFFFF)
+
 #define HALT 0
 #define PUSHC 1
 #define ADD 2
