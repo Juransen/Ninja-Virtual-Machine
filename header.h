@@ -19,6 +19,28 @@
 #define WRINT 8
 #define RDCHR 9
 #define WRCHR 10
+#define pushg 11
+#define popg 12
+#define asf 13
+#define rsf 14
+#define pushl 15
+#define popl 16
+#define ep 17
+#define ne 18
+#define lt 19
+#define le 20
+#define gt 21
+#define ge 22
+#define jmp 23
+#define brf 24
+#define brt 25
+#define call 26
+#define ret 27
+#define drop 28
+#define pushr 29
+#define popr 30
+#define dup 31
+
 
 #define ADDITION(val1, val2) val1 + val2
 #define SUBTRACTION(val1, val2) val1 - val2

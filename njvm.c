@@ -41,36 +41,6 @@ uint32_t popStack(){
     return data;
 }
 
-/*uint32_t addition(uint32_t val1, uint32_t val2){
-
-    uint32_t result = ADDITION(val1, val2);
-    return result;
-}
-
-uint32_t subtraction(uint32_t val1, uint32_t val2){
-
-    uint32_t result = val1 - val2;
-    return result;
-}
-
-uint32_t miltiplication(uint32_t val1, uint32_t val2){
-
-    uint32_t result = val1 * val2;
-    return result;
-}
-
-uint32_t devision(uint32_t val1, uint32_t val2){
-
-    uint32_t result = val1 / val2;
-    return result;
-}
-
-uint32_t modulo(uint32_t val1, uint32_t val2){
-
-    uint32_t result = val1 % val2;
-    return result;
-}*/
-
 uint32_t readInt(){
     int input;
     scanf("%d", &input);
@@ -130,6 +100,69 @@ void printCommands(uint32_t progCode[], uint32_t size){
                 break;
 
             case 10: strcpy(commandStr, "wrchr");
+                break;
+
+            case 11: strcpy(commandStr, "pushg");
+                break;
+
+            case 12: strcpy(commandStr, "popg");
+                break;
+
+            case 13: strcpy(commandStr, "asf");
+                break;
+
+            case 14: strcpy(commandStr, "rsf");
+                break;
+
+            case 15: strcpy(commandStr, "pushl");
+                break;
+
+            case 16: strcpy(commandStr, "popl");
+                break;
+
+            case 17: strcpy(commandStr, "ep");
+                break;
+
+            case 18: strcpy(commandStr, "ne");
+                break;
+
+            case 19: strcpy(commandStr, "lt");
+                break;
+
+            case 20: strcpy(commandStr, "le");
+                break;
+
+            case 21: strcpy(commandStr, "gt");
+                break;
+
+            case 22: strcpy(commandStr, "ge");
+                break;
+
+            case 23: strcpy(commandStr, "jmp");
+                break;
+
+            case 24: strcpy(commandStr, "brf");
+                break;
+
+            case 25: strcpy(commandStr, "brt");
+                break;
+
+            case 26: strcpy(commandStr, "call");
+                break;
+
+            case 27: strcpy(commandStr, "ret");
+                break;
+
+            case 28: strcpy(commandStr, "drop");
+                break;
+
+            case 29: strcpy(commandStr, "pushr");
+                break;
+
+            case 30: strcpy(commandStr, "popr");
+                break;
+
+            case 31: strcpy(commandStr, "dup");
                 break;
         }
 
@@ -231,7 +264,7 @@ void exec(uint32_t commandCode[]){
 
             case WRCHR:{
                 uint32_t output = popStack();
-                output = IMMEDIATE(output);
+                //output = IMMEDIATE(output);
                 printf("%c", output);
                 break;
             }
@@ -274,7 +307,7 @@ void commandResponse(char* incomeCommand[], int arraySize){
         }
 
         case 0: {
-            printf("usage: ./njvm_aug0 [option] [option] ..."
+            printf("usage: ./njvm [option] [option] ..."
                    "\n--prog1\tselect program 1 to execute"
                    "\n--prog2\tselect program 2 to execute"
                    "\n--prog3\tselect program 3 to execute"
