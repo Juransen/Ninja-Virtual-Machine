@@ -270,7 +270,6 @@ void exec(uint32_t commandCode[]){
             }
         }
 
-
         progCounter++;
     }
 
