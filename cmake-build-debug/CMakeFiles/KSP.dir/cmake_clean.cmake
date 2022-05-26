@@ -1,6 +1,6 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/KSP.dir/_njvm.c.obj"
-  "CMakeFiles/KSP.dir/_njvm.c.obj.d"
+  "CMakeFiles/KSP.dir/njvm.c.obj"
+  "CMakeFiles/KSP.dir/njvm.c.obj.d"
   "KSP.exe"
   "KSP.exe.manifest"
   "KSP.pdb"

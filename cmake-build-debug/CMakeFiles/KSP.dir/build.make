@@ -68,28 +68,28 @@ include CMakeFiles/KSP.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/KSP.dir/flags.make
 
-CMakeFiles/KSP.dir/_njvm.c.obj: CMakeFiles/KSP.dir/flags.make
-CMakeFiles/KSP.dir/_njvm.c.obj: ../_njvm.c
-CMakeFiles/KSP.dir/_njvm.c.obj: CMakeFiles/KSP.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Jura\CLionProjects\KSP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/KSP.dir/_njvm.c.obj"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/KSP.dir/_njvm.c.obj -MF CMakeFiles\KSP.dir\_njvm.c.obj.d -o CMakeFiles\KSP.dir\_njvm.c.obj -c C:\Users\Jura\CLionProjects\KSP\_njvm.c
+CMakeFiles/KSP.dir/njvm.c.obj: CMakeFiles/KSP.dir/flags.make
+CMakeFiles/KSP.dir/njvm.c.obj: ../njvm.c
+CMakeFiles/KSP.dir/njvm.c.obj: CMakeFiles/KSP.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=C:\Users\Jura\CLionProjects\KSP\cmake-build-debug\CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building C object CMakeFiles/KSP.dir/njvm.c.obj"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -MD -MT CMakeFiles/KSP.dir/njvm.c.obj -MF CMakeFiles\KSP.dir\njvm.c.obj.d -o CMakeFiles\KSP.dir\njvm.c.obj -c C:\Users\Jura\CLionProjects\KSP\njvm.c
 
-CMakeFiles/KSP.dir/_njvm.c.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/KSP.dir/_njvm.c.i"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Jura\CLionProjects\KSP\_njvm.c > CMakeFiles\KSP.dir\_njvm.c.i
+CMakeFiles/KSP.dir/njvm.c.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/KSP.dir/njvm.c.i"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E C:\Users\Jura\CLionProjects\KSP\njvm.c > CMakeFiles\KSP.dir\njvm.c.i
 
-CMakeFiles/KSP.dir/_njvm.c.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/KSP.dir/_njvm.c.s"
-	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Jura\CLionProjects\KSP\_njvm.c -o CMakeFiles\KSP.dir\_njvm.c.s
+CMakeFiles/KSP.dir/njvm.c.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/KSP.dir/njvm.c.s"
+	C:\PROGRA~2\MINGW-~1\I686-8~1.0-P\mingw32\bin\gcc.exe $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S C:\Users\Jura\CLionProjects\KSP\njvm.c -o CMakeFiles\KSP.dir\njvm.c.s
 
 # Object files for target KSP
 KSP_OBJECTS = \
-"CMakeFiles/KSP.dir/_njvm.c.obj"
+"CMakeFiles/KSP.dir/njvm.c.obj"
 
 # External object files for target KSP
 KSP_EXTERNAL_OBJECTS =
 
-KSP.exe: CMakeFiles/KSP.dir/_njvm.c.obj
+KSP.exe: CMakeFiles/KSP.dir/njvm.c.obj
 KSP.exe: CMakeFiles/KSP.dir/build.make
 KSP.exe: CMakeFiles/KSP.dir/linklibs.rsp
 KSP.exe: CMakeFiles/KSP.dir/objects1.rsp

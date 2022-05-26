@@ -8,7 +8,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/Jura/CLionProjects/KSP/_njvm.c" "CMakeFiles/KSP.dir/_njvm.c.obj" "gcc" "CMakeFiles/KSP.dir/_njvm.c.obj.d"
+  "C:/Users/Jura/CLionProjects/KSP/njvm.c" "CMakeFiles/KSP.dir/njvm.c.obj" "gcc" "CMakeFiles/KSP.dir/njvm.c.obj.d"
   )
 
 # Targets to which this target links.

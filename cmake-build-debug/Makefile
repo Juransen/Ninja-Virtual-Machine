@@ -128,29 +128,29 @@ KSP/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/build
 .PHONY : KSP/fast
 
-_njvm.obj: _njvm.c.obj
-.PHONY : _njvm.obj
+njvm.obj: njvm.c.obj
+.PHONY : njvm.obj
 
 # target to build an object file
-_njvm.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/_njvm.c.obj
-.PHONY : _njvm.c.obj
+njvm.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/njvm.c.obj
+.PHONY : njvm.c.obj
 
-_njvm.i: _njvm.c.i
-.PHONY : _njvm.i
+njvm.i: njvm.c.i
+.PHONY : njvm.i
 
 # target to preprocess a source file
-_njvm.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/_njvm.c.i
-.PHONY : _njvm.c.i
+njvm.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/njvm.c.i
+.PHONY : njvm.c.i
 
-_njvm.s: _njvm.c.s
-.PHONY : _njvm.s
+njvm.s: njvm.c.s
+.PHONY : njvm.s
 
 # target to generate assembly for a file
-_njvm.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/_njvm.c.s
-.PHONY : _njvm.c.s
+njvm.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\KSP.dir\build.make CMakeFiles/KSP.dir/njvm.c.s
+.PHONY : njvm.c.s
 
 # Help Target
 help:
@@ -161,9 +161,9 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... KSP
-	@echo ... _njvm.obj
-	@echo ... _njvm.i
-	@echo ... _njvm.s
+	@echo ... njvm.obj
+	@echo ... njvm.i
+	@echo ... njvm.s
 .PHONY : help
 
 

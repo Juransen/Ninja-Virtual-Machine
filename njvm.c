@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
+#include <stdlib.h>
+#include <stdbool.h>
 #include "header.h"
 
 // seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
@@ -17,12 +19,20 @@ uint32_t stackSize;
 
 void pushStack(uint32_t data){
 
+    if (stackSize == sizeof(stack) / sizeof(uint32_t)){
+        exit(printf("Stack overflow!!"));
+    }
+
     *topOfStack = data;
     stackSize++;
     topOfStack++;
 }
 
 uint32_t popStack(){
+
+    if (stackSize == 0){
+        exit(printf("Stack empty!"));
+    }
 
     topOfStack--;
     uint32_t data = *topOfStack;
@@ -31,7 +41,7 @@ uint32_t popStack(){
     return data;
 }
 
-uint32_t addition(uint32_t val1, uint32_t val2){
+/*uint32_t addition(uint32_t val1, uint32_t val2){
 
     uint32_t result = ADDITION(val1, val2);
     return result;
@@ -59,54 +69,181 @@ uint32_t modulo(uint32_t val1, uint32_t val2){
 
     uint32_t result = val1 % val2;
     return result;
-}
+}*/
 
 uint32_t readInt(){
-    int input = scanf("%i",&input);
+    int input;
+    scanf("%d", &input);
+    //printf("input = %i\n", input);
     return input;
 }
 
 char readChar(){
-    char input = scanf("%c", &input);
+    char input;
+    scanf("%c", &input);
+    //printf("input = %c\n", input);
     return input;
 }
 
+void printCommands(uint32_t progCode[], uint32_t size){
 
-uint32_t progCode1[] = {
-        (PUSHC << 24) | IMMEDIATE(3),
-        (PUSHC << 24) | IMMEDIATE(4),
-        (ADD << 24),
-        (PUSHC << 24) | IMMEDIATE(10),
-        (PUSHC << 24) | IMMEDIATE(6),
-        (SUB << 24),
-        (MUL << 24),
-        (WRINT << 24),
-        (PUSHC << 24) | IMMEDIATE(10),
-        (WRINT << 24),
-        (HALT << 24)
-};
+    for (int i = 0; i <= size; ++i) {
 
-uint32_t progCode2[] ={
-        (PUSHC << 24) | IMMEDIATE(-2),
-        (RDINT << 24),
-        (MUL << 24),
-        (PUSHC << 24) | IMMEDIATE(3),
-        (ADD << 24),
-        (WRINT << 24),
-        (PUSHC << 24) | IMMEDIATE('\n'),
-        (WRCHR << 24),
-        (HALT << 24)
-};
+        uint32_t instruction = progCode[i];
+        uint32_t command = instruction >> 24;
+        char commandStr[10];
+        uint32_t immediate = IMMEDIATE(instruction);
 
-uint32_t progCode3[] = {
-        (RDCHR << 24),
-        (WRINT << 24),
-        (PUSHC << 24) | IMMEDIATE('\n'),
-        (WRCHR << 24),
-        (HALT << 24)
-};
+        switch (command) {
 
-void commandResponse (char* incomeCommand[], int arraySize){
+            default: immediate = 0;
+                break;
+
+            case 0: strcpy(commandStr, "halt");
+                break;
+
+            case 1: strcpy(commandStr, "pushc");
+                break;
+
+            case 2: strcpy(commandStr, "add");
+                break;
+
+            case 3: strcpy(commandStr, "sub");
+                break;
+
+            case 4: strcpy(commandStr, "mul");
+                break;
+
+            case 5: strcpy(commandStr, "div");
+                break;
+
+            case 6: strcpy(commandStr, "mod");
+                break;
+
+            case 7: strcpy(commandStr, "rdint");
+                break;
+
+            case 8: strcpy(commandStr, "wrint");
+                break;
+
+            case 9: strcpy(commandStr, "rdchr");
+                break;
+
+            case 10: strcpy(commandStr, "wrchr");
+                break;
+        }
+
+        printf("%03i:\t%s", i, commandStr);
+
+        if (immediate > 0) printf("\t%i", SIGN_EXTEND(immediate));
+
+        printf("\n");
+    }
+
+}
+
+void exec(uint32_t commandCode[]){
+    bool stop = false;
+    uint32_t progCounter = 0;
+    uint32_t* commandTable = commandCode;
+
+    while (!stop){
+
+        uint32_t instrucion = commandTable[progCounter];
+        uint32_t immediate = IMMEDIATE(instrucion);
+        instrucion = instrucion >> 24;
+
+        switch(instrucion) {
+
+            default:
+                break;
+
+            case HALT: {
+                stop = true;
+                break;
+            }
+
+            case PUSHC:{
+                pushStack(SIGN_EXTEND(immediate));
+                break;
+            }
+
+            case ADD:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = ADDITION(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case SUB:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = SUBTRACTION(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case MUL:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = MULTIPILCATION(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case DIV:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = DIVISION(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case MOD:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = MODULO(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case RDINT:{
+                uint32_t input = readInt();
+                uint32_t hexCode = IMMEDIATE(input);
+                pushStack(SIGN_EXTEND(hexCode));
+                break;
+            }
+
+            case WRINT:{
+                uint32_t output = popStack();
+                //output = IMMEDIATE(output);
+                printf("%i", output);
+                break;
+            }
+
+            case RDCHR:{
+                char input = readChar();
+                uint32_t hexCode =IMMEDIATE(input);
+                pushStack(hexCode);
+                break;
+            }
+
+            case WRCHR:{
+                uint32_t output = popStack();
+                output = IMMEDIATE(output);
+                printf("%c", output);
+                break;
+            }
+        }
+
+
+        progCounter++;
+    }
+
+}
+
+void commandResponse(char* incomeCommand[], int arraySize){
 
     int cmdType = -2;
 
@@ -154,21 +291,27 @@ void commandResponse (char* incomeCommand[], int arraySize){
 
         case 2:{
             VMSTART
-            printf("prog1\n");
+            //printf("prog1\n");
+            printCommands(progCode1, 10);
+            exec(progCode1);
             VMSTOP
             break;
         }
 
         case 3:{
             VMSTART
-            printf("prog2\n");
+            //printf("prog2\n");
+            printCommands(progCode2, 8);
+            exec(progCode2);
             VMSTOP
             break;
         }
 
         case 4:{
             VMSTART
-            printf("prog3\n");
+            //printf("prog3\n");
+            printCommands(progCode3, 4);
+            exec(progCode3);
             VMSTOP
             break;
         }
