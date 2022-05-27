@@ -6,6 +6,7 @@
 #include "header.h"
 
 // seg fault liegt an speicher der entweder nicht zugeteilt ist oder keine permission für den Speicher
+//RSF verkleiner stagsize nicht
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
@@ -70,12 +71,36 @@ void allocateStackFrame(uint32_t space){
     pushStack(*stackPointer);
     framePointer = stackPointer;
     stackPointer = stackPointer + space;
+    stackSize = stackSize + space;
+
 }
 
 void releaseStackFrame(){
 
     stackPointer = framePointer;
     *framePointer = popStack();
+}
+
+void pushLocalVar(uint32_t pos){
+    //kopiert von der frame auf den Stack
+
+    uint32_t *destionantion = framePointer + pos;
+    uint32_t input = stack[*destionantion];
+
+    printf("pushl: %i\tstack[%i]\tpos: %i\n", input, stack[*destionantion], pos);
+
+    pushStack(input);
+}
+
+void popLocalVariable(uint32_t pos){
+    //pusht vom stack in die frame
+
+    uint32_t output = popStack();
+    uint32_t* destionantion = framePointer + (pos * sizeof(uint32_t));
+
+    printf("popl: %i\t\tStackvalue %i\tpos: %i\n", output, stack[*destionantion], pos);
+
+    stack[*destionantion] = output;
 }
 
 FILE* openFile(char path[]){
@@ -365,12 +390,12 @@ void exec(uint32_t commandCode[]){
             }
 
             case PUSHL:{
-
+                pushLocalVar(immediate);
                 break;
             }
 
             case POPL:{
-
+                popLocalVariable(immediate);
                 break;
             }
         }
