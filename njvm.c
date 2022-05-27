@@ -13,14 +13,23 @@ const int buildVersion = 2;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
 
-uint32_t stack[12];
+uint32_t stack[1000];
 uint32_t* topOfStack;
 uint32_t stackSize;
+
+uint32_t* commList;
+uint32_t* staticDataArea;
+
+uint32_t format;
+uint32_t version;
+uint32_t countOfInstructions;
+uint32_t countOfVars;
+
 
 void pushStack(uint32_t data){
 
     if (stackSize == sizeof(stack) / sizeof(uint32_t)){
-        exit(printf("Stack overflow!!"));
+        exit(printf("Stack overflow!!\n"));
     }
 
     *topOfStack = data;
@@ -31,7 +40,7 @@ void pushStack(uint32_t data){
 uint32_t popStack(){
 
     if (stackSize == 0){
-        exit(printf("Stack empty!"));
+        exit(printf("Stack empty!\n"));
     }
 
     topOfStack--;
@@ -48,15 +57,51 @@ uint32_t readInt(){
     return input;
 }
 
-void openFile(char path[]){
+FILE* openFile(char path[]){
 
     char mode = 'r';
     FILE* file = fopen(path, &mode);
 
-    if (file != NULL){
-        printf("could load file!\n");
+    if (file == NULL){
+        printf("could not open file\n");
+        exit(99);
     }
-    else printf("could not open file\n"); exit(99);
+
+    return file;
+}
+
+void readFile(FILE* file){
+
+    uint32_t headerDataField[4];
+    fread(headerDataField, 4, 4, file);
+
+    format = headerDataField[0];
+    version = headerDataField[1];
+    countOfInstructions = headerDataField[2];
+    countOfVars = headerDataField[3];
+
+    printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
+
+    uint32_t formatIdentfyer = 0x46424a4e; //NJBF in HEX
+
+    uint32_t identifyer = 0;
+
+    if (format == formatIdentfyer) identifyer = 1;
+
+    if(identifyer == 0){
+        printf("Format not compatible!\n");
+        exit(99);
+    }
+
+    if (version != buildVersion){
+        printf("file version does not match VM version\n");
+        exit(99);
+    }
+
+    staticDataArea = malloc(countOfVars * sizeof(uint32_t));
+
+    commList = malloc(countOfInstructions * sizeof(uint32_t));
+    fread(commList, sizeof(uint32_t), countOfInstructions, file);
 }
 
 char readChar(){
@@ -68,7 +113,7 @@ char readChar(){
 
 void printCommands(uint32_t progCode[], uint32_t size){
 
-    for (int i = 0; i <= size; ++i) {
+    for (int i = 0; i < size; ++i) {
 
         uint32_t instruction = progCode[i];
         uint32_t command = instruction >> 24;
@@ -179,7 +224,7 @@ void printCommands(uint32_t progCode[], uint32_t size){
 
         printf("%03i:\t%s", i, commandStr);
 
-        if (immediate > 0) printf("\t%i", SIGN_EXTEND(immediate));
+        if (command == POPG || command == PUSHG || immediate > 0) printf("\t%i", SIGN_EXTEND(immediate));
 
         printf("\n");
     }
@@ -202,7 +247,7 @@ void exec(uint32_t commandCode[]){
             default:
                 break;
 
-            case HALT: {
+            case HALT:{
                 stop = true;
                 break;
             }
@@ -279,11 +324,45 @@ void exec(uint32_t commandCode[]){
                 printf("%c", output);
                 break;
             }
+
+            case PUSHG:{
+                uint32_t input = staticDataArea[immediate];
+                pushStack(SIGN_EXTEND(input));
+                break;
+            }
+
+            case POPG:{
+                uint32_t output = popStack();
+                staticDataArea[immediate] = output;
+                break;
+            }
+
+            case ASF:{
+
+                break;
+            }
+
+            case RSF:{
+
+                break;
+            }
+
+            case PUSHL:{
+
+                break;
+            }
+
+            case POPL:{
+
+                break;
+            }
         }
 
         progCounter++;
     }
 
+    free(commList);
+    free(staticDataArea);
 }
 
 void commandResponse(char* incomeCommand[], int arraySize){
@@ -350,7 +429,7 @@ void commandResponse(char* incomeCommand[], int arraySize){
         case 2:{
             VMSTART
             //printf("prog1\n");
-            printCommands(progCode1, 10);
+            printCommands(progCode1, 11);
             exec(progCode1);
             VMSTOP
             break;
@@ -359,7 +438,7 @@ void commandResponse(char* incomeCommand[], int arraySize){
         case 3:{
             VMSTART
             //printf("prog2\n");
-            printCommands(progCode2, 8);
+            printCommands(progCode2, 9);
             exec(progCode2);
             VMSTOP
             break;
@@ -368,7 +447,7 @@ void commandResponse(char* incomeCommand[], int arraySize){
         case 4:{
             VMSTART
             //printf("prog3\n");
-            printCommands(progCode3, 4);
+            printCommands(progCode3, 5);
             exec(progCode3);
             VMSTOP
             break;
@@ -376,8 +455,9 @@ void commandResponse(char* incomeCommand[], int arraySize){
 
         case 5:{
             VMSTART
-            printf("file can be opened!\n");
-            openFile(incomeCommand[1]);
+            readFile(openFile(incomeCommand[1]));
+            printCommands(commList, countOfInstructions);
+            exec(commList);
             VMSTOP
             break;
         }
