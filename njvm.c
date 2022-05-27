@@ -9,9 +9,9 @@
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
-const int buildVersion = 1;
+const int buildVersion = 2;
 
-const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3"};
+const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
 
 uint32_t stack[12];
 uint32_t* topOfStack;
@@ -46,6 +46,17 @@ uint32_t readInt(){
     scanf("%d", &input);
     //printf("input = %i\n", input);
     return input;
+}
+
+void openFile(char path[]){
+
+    char mode = 'r';
+    FILE* file = fopen(path, &mode);
+
+    if (file != NULL){
+        printf("could load file!\n");
+    }
+    else printf("could not open file\n"); exit(99);
 }
 
 char readChar(){
@@ -279,15 +290,29 @@ void commandResponse(char* incomeCommand[], int arraySize){
 
     int cmdType = -2;
 
-
     // Wenn min eine Optiopn angegeben wid greift das if
     if(arraySize > 1) {
         cmdType = -1;
 
-        //For prüft das erste Argument
+        const char dot = '.';
+        char* leftOver;
+
+        leftOver = strrchr(incomeCommand[1], dot);
+        //printf("leftover = %s\n", leftOver);
+
+        //For vergleicht das erste Argument mit der commands liste
         for (int i = 0; i < sizeof(commands) / sizeof(char *); i++) {
 
-            int cmdCmp = strcmp(commands[i], incomeCommand[1]);
+            int cmdCmp;
+
+            if (leftOver == NULL) {
+                cmdCmp = strcmp(commands[i], incomeCommand[1]);
+            }
+
+            else {
+                cmdCmp = strcmp(commands[i], leftOver);
+            }
+
             if (cmdCmp == 0) { cmdType = i; }
         }
     }
@@ -301,17 +326,18 @@ void commandResponse(char* incomeCommand[], int arraySize){
         }
 
         case -1:{
-            printf("unknown command line argument \x1B[31m'%s'\033[0m, try \x1B[31m'./njvm_aug0 --help'\033[0m\n", incomeCommand[1]);
+            printf("unknown command line argument \x1B[31m'%s'\033[0m, try \x1B[31m'./njvm --help'\033[0m\n", incomeCommand[1]);
             break;
         }
 
         case 0: {
-            printf("usage: ./njvm [option] [option] ..."
+            printf("usage: ./njvm [options] <code file>"
                    "\n--prog1\tselect program 1 to execute"
                    "\n--prog2\tselect program 2 to execute"
                    "\n--prog3\tselect program 3 to execute"
                    "\n--version\tshow version and exit"
-                   "\n--help\t\tshow this help and exit\n");
+                   "\n--help\t\tshow this help and exit"
+                   "\n<code file> opens the file and execute");
             break;
         }
 
@@ -344,6 +370,14 @@ void commandResponse(char* incomeCommand[], int arraySize){
             //printf("prog3\n");
             printCommands(progCode3, 4);
             exec(progCode3);
+            VMSTOP
+            break;
+        }
+
+        case 5:{
+            VMSTART
+            printf("file can be opened!\n");
+            openFile(incomeCommand[1]);
             VMSTOP
             break;
         }
