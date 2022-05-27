@@ -14,7 +14,8 @@ const int buildVersion = 2;
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
 
 uint32_t stack[1000];
-uint32_t* topOfStack;
+uint32_t* stackPointer;
+uint32_t* framePointer;
 uint32_t stackSize;
 
 uint32_t* commList;
@@ -32,9 +33,9 @@ void pushStack(uint32_t data){
         exit(printf("Stack overflow!!\n"));
     }
 
-    *topOfStack = data;
+    *stackPointer = data;
     stackSize++;
-    topOfStack++;
+    stackPointer++;
 }
 
 uint32_t popStack(){
@@ -43,9 +44,9 @@ uint32_t popStack(){
         exit(printf("Stack empty!\n"));
     }
 
-    topOfStack--;
-    uint32_t data = *topOfStack;
-    *topOfStack = 0;
+    stackPointer--;
+    uint32_t data = *stackPointer;
+    *stackPointer = 0;
     stackSize--;
     return data;
 }
@@ -55,6 +56,26 @@ uint32_t readInt(){
     scanf("%d", &input);
     //printf("input = %i\n", input);
     return input;
+}
+
+char readChar(){
+    char input;
+    scanf("%c", &input);
+    //printf("input = %c\n", input);
+    return input;
+}
+
+void allocateStackFrame(uint32_t space){
+
+    pushStack(*stackPointer);
+    framePointer = stackPointer;
+    stackPointer = stackPointer + space;
+}
+
+void releaseStackFrame(){
+
+    stackPointer = framePointer;
+    *framePointer = popStack();
 }
 
 FILE* openFile(char path[]){
@@ -80,7 +101,7 @@ void readFile(FILE* file){
     countOfInstructions = headerDataField[2];
     countOfVars = headerDataField[3];
 
-    printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
+    //printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
 
     uint32_t formatIdentfyer = 0x46424a4e; //NJBF in HEX
 
@@ -102,13 +123,6 @@ void readFile(FILE* file){
 
     commList = malloc(countOfInstructions * sizeof(uint32_t));
     fread(commList, sizeof(uint32_t), countOfInstructions, file);
-}
-
-char readChar(){
-    char input;
-    scanf("%c", &input);
-    //printf("input = %c\n", input);
-    return input;
 }
 
 void printCommands(uint32_t progCode[], uint32_t size){
@@ -224,7 +238,10 @@ void printCommands(uint32_t progCode[], uint32_t size){
 
         printf("%03i:\t%s", i, commandStr);
 
-        if (command == POPG || command == PUSHG || immediate > 0) printf("\t%i", SIGN_EXTEND(immediate));
+        if (command == POPG || command == PUSHG||
+            command == PUSHL || command == POPL || immediate > 0){
+            printf("\t%i", SIGN_EXTEND(immediate));
+        }
 
         printf("\n");
     }
@@ -338,12 +355,12 @@ void exec(uint32_t commandCode[]){
             }
 
             case ASF:{
-
+                allocateStackFrame(immediate);
                 break;
             }
 
             case RSF:{
-
+                releaseStackFrame();
                 break;
             }
 
@@ -465,7 +482,8 @@ void commandResponse(char* incomeCommand[], int arraySize){
 }
 
 int main(int argc, char *argv[]) {
-    topOfStack = stack;
+    stackPointer = stack;
+    framePointer = stack;
     stackSize = 0;
 
     commandResponse(argv, argc);
