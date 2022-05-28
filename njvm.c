@@ -10,7 +10,7 @@
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
-const int buildVersion = 3;
+const int buildVersion = 4;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
 
@@ -122,7 +122,7 @@ FILE* openFile(char path[]){
     return file;
 }
 
-void readFile(FILE* file){
+FILE* readFile(FILE* file){
 
     uint32_t headerDataField[4];
     fread(headerDataField, 4, 4, file);
@@ -132,7 +132,7 @@ void readFile(FILE* file){
     countOfInstructions = headerDataField[2];
     countOfVars = headerDataField[3];
 
-    printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
+    //printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
 
     uint32_t formatIdentfyer = 0x46424a4e; //NJBF in HEX
 
@@ -154,6 +154,9 @@ void readFile(FILE* file){
 
     commList = malloc(countOfInstructions * sizeof(uint32_t));
     fread(commList, sizeof(uint32_t), countOfInstructions, file);
+
+    FILE* openedFile = file;
+    return openedFile;
 }
 
 void printCommands(uint32_t progCode[], uint32_t size){
@@ -463,20 +466,24 @@ void exec(uint32_t commandCode[]){
             case BRF:{
                 uint32_t output = popStack();
                 if (output == 0) progCounter = immediate;
-                else {
-                    printf("BRT failed");
-                    exit(99);
-                }
                 break;
             }
 
             case BRT:{
                 uint32_t output = popStack();
                 if (output == 1) progCounter = immediate;
-                else {
-                    printf("BRT failed");
-                    exit(99);
-                }
+                break;
+            }
+
+            case CALL:{
+                pushStack(progCounter);
+                progCounter = immediate;
+                break;
+            }
+
+            case RET:{
+                uint32_t retAdress = popStack();
+                progCounter = retAdress;
                 break;
             }
         }
@@ -576,8 +583,8 @@ void commandResponse(char* incomeCommand[], int arraySize){
 
         case 5:{
             VMSTART
-            readFile(openFile(incomeCommand[1]));
-            printCommands(commList, countOfInstructions);
+            fclose(readFile(openFile(incomeCommand[1])));
+            //printCommands(commList, countOfInstructions);
             exec(commList);
             VMSTOP
             break;
