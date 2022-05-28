@@ -12,17 +12,19 @@ const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
 const int buildVersion = 4;
 
-const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
+const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--debug", ".bin"};
 
 uint32_t stack[1000];
 uint32_t* stackPointer;
 uint32_t* framePointer;
-uint32_t frameSize;
+//uint32_t frameSize;
 uint32_t stackSize;
 
 uint32_t returnValueReg[100];
 uint32_t returnValueRegIndex;
 
+uint32_t countOfFrames;
+uint32_t frameSizes[50];
 
 uint32_t* commList;
 uint32_t* staticDataArea;
@@ -84,12 +86,14 @@ char readChar(){
 void allocateStackFrame(uint32_t space){
 
 
-    pushStack((uint32_t)stackPointer); // warning weil cast auf ein uint.
+    pushStack((uint32_t)stackPointer); // cast auf ein uint. die adresse des Pointers soll gespeichert werden
     //printf("stackpointerval %i", stackPointer);
     framePointer = stackPointer;
     stackPointer = stackPointer + (space * sizeof(uint32_t));
     stackSize += space;
-    frameSize += space;
+    //frameSize = space;
+    frameSizes[countOfFrames] = space;
+    countOfFrames++;
 
 }
 
@@ -97,7 +101,8 @@ void releaseStackFrame(){
 
     stackPointer = framePointer;
     *framePointer = popStack();
-    stackSize -= frameSize; //TODO: Framesize berechnen wenn mehrere frames aufgebaut werden
+    stackSize -= frameSizes[countOfFrames];
+    countOfFrames--;
 
 }
 
@@ -521,6 +526,13 @@ void exec(uint32_t commandCode[]){
                 returnValueRegIndex++;
                 break;
             }
+
+            case DUP:{
+                uint32_t duplicate = popStack();
+                pushStack(duplicate);
+                pushStack(duplicate);
+                break;
+            }
         }
     }
 
@@ -608,10 +620,11 @@ void commandResponse(char* incomeCommand[], int arraySize){
         }
 
         case 4:{
+            //TODO: insert debuger
             VMSTART
-            //printf("prog3\n");
+            /*printf("prog3\n");
             printCommands(progCode3, 5);
-            exec(progCode3);
+            exec(progCode3);*/
             VMSTOP
             break;
         }
@@ -632,6 +645,7 @@ int main(int argc, char *argv[]) {
     framePointer = stack;
     stackSize = 0;
     returnValueRegIndex = 0;
+    countOfFrames = 0;
 
     commandResponse(argv, argc);
 
