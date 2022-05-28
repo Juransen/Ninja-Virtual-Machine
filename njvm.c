@@ -68,9 +68,11 @@ char readChar(){
 
 void allocateStackFrame(uint32_t space){
 
-    pushStack(*stackPointer);
+
+    pushStack((uint32_t)stackPointer); // warning weil cast auf ein uint.
+    //printf("stackpointerval %i", stackPointer);
     framePointer = stackPointer;
-    stackPointer = stackPointer + space;
+    stackPointer = stackPointer + (space * sizeof(uint32_t));
     stackSize = stackSize + space;
 
 }
@@ -85,9 +87,9 @@ void pushLocalVar(uint32_t pos){
     //kopiert von der frame auf den Stack
 
     uint32_t *destionantion = framePointer + pos;
-    uint32_t input = stack[*destionantion];
+    uint32_t input = *destionantion;
 
-    printf("pushl: %i\tstack[%i]\tpos: %i\n", input, stack[*destionantion], pos);
+    //printf("pushl: %i\tstack[%i]\tpos: %i\n", input, *destionantion, pos);
 
     pushStack(input);
 }
@@ -96,11 +98,11 @@ void popLocalVariable(uint32_t pos){
     //pusht vom stack in die frame
 
     uint32_t output = popStack();
-    uint32_t* destionantion = framePointer + (pos * sizeof(uint32_t));
+    uint32_t* destinantion = framePointer + pos;
 
-    printf("popl: %i\t\tStackvalue %i\tpos: %i\n", output, stack[*destionantion], pos);
+    //printf("popl: %i\t\tStackvalue %i\tpos: %i\n", output, *destinantion, pos);
 
-    stack[*destionantion] = output;
+    *destinantion = output;
 }
 
 FILE* openFile(char path[]){
