@@ -10,13 +10,14 @@
 
 const char* buildDate = __DATE__;
 const char* buildTime = __TIME__;
-const int buildVersion = 2;
+const int buildVersion = 3;
 
 const char* commands[] = {"--help", "--version", "--prog1", "--prog2", "--prog3", ".bin"};
 
 uint32_t stack[1000];
 uint32_t* stackPointer;
 uint32_t* framePointer;
+uint32_t frameSize;
 uint32_t stackSize;
 
 uint32_t* commList;
@@ -73,7 +74,8 @@ void allocateStackFrame(uint32_t space){
     //printf("stackpointerval %i", stackPointer);
     framePointer = stackPointer;
     stackPointer = stackPointer + (space * sizeof(uint32_t));
-    stackSize = stackSize + space;
+    stackSize += space;
+    frameSize += space;
 
 }
 
@@ -81,6 +83,8 @@ void releaseStackFrame(){
 
     stackPointer = framePointer;
     *framePointer = popStack();
+    stackSize -= frameSize;
+
 }
 
 void pushLocalVar(uint32_t pos){
@@ -128,7 +132,7 @@ void readFile(FILE* file){
     countOfInstructions = headerDataField[2];
     countOfVars = headerDataField[3];
 
-    //printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
+    printf("format: %c\nversion: %i\ncount of instructions: %i\nvariables: %i\n", format, version, countOfInstructions, countOfVars);
 
     uint32_t formatIdentfyer = 0x46424a4e; //NJBF in HEX
 
@@ -282,11 +286,13 @@ void exec(uint32_t commandCode[]){
 
     while (!stop){
 
-        uint32_t instrucion = commandTable[progCounter];
-        uint32_t immediate = IMMEDIATE(instrucion);
-        instrucion = instrucion >> 24;
+        uint32_t instruction = commandTable[progCounter];
+        uint32_t immediate = IMMEDIATE(instruction);
+        instruction = instruction >> 24;
 
-        switch(instrucion) {
+        progCounter++;
+
+        switch(instruction) {
 
             default:
                 break;
@@ -400,9 +406,80 @@ void exec(uint32_t commandCode[]){
                 popLocalVariable(immediate);
                 break;
             }
-        }
 
-        progCounter++;
+            case EQ:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = EQUALS(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case NE:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = NOTEQUALS(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case LT:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = LOWERTHAN(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case LE:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = LOWEREQUALS(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case GT:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = GREATERTAHN(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case GE:{
+                uint32_t val2 = popStack();
+                uint32_t val1 = popStack();
+                uint32_t result = GREATEREQUALS(val1, val2);
+                pushStack(result);
+                break;
+            }
+
+            case JMP:{
+                progCounter = immediate;
+                break;
+            }
+
+            case BRF:{
+                uint32_t output = popStack();
+                if (output == 0) progCounter = immediate;
+                else {
+                    printf("BRT failed");
+                    exit(99);
+                }
+                break;
+            }
+
+            case BRT:{
+                uint32_t output = popStack();
+                if (output == 1) progCounter = immediate;
+                else {
+                    printf("BRT failed");
+                    exit(99);
+                }
+                break;
+            }
+        }
     }
 
     free(commList);

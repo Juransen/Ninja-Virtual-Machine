@@ -25,7 +25,7 @@
 #define RSF 14
 #define PUSHL 15
 #define POPL 16
-#define EP 17
+#define EQ 17
 #define NE 18
 #define LT 19
 #define LE 20
@@ -41,12 +41,19 @@
 #define POPR 30
 #define DUP 31
 
-
 #define ADDITION(val1, val2) val1 + val2
 #define SUBTRACTION(val1, val2) val1 - val2
 #define MULTIPILCATION(val1, val2) val1 * val2
 #define DIVISION(val1, val2) val1 / val2
 #define MODULO(val1, val2) val1 % val2
+
+#define EQUALS(val1, val2) val1 == val2
+#define NOTEQUALS(val1, val2) val1 != val2
+#define LOWERTHAN(val1, val2) val1 < val2
+#define LOWEREQUALS(val1, val2) val1 <= val2
+#define GREATERTAHN(val1, val2) val1 > val2
+#define GREATEREQUALS(val1, val2) val1 >= val2
+
 
 uint32_t progCode1[] = {
         (PUSHC << 24) | IMMEDIATE(3),
