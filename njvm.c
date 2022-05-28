@@ -20,6 +20,10 @@ uint32_t* framePointer;
 uint32_t frameSize;
 uint32_t stackSize;
 
+uint32_t returnValueReg[100];
+uint32_t returnValueRegIndex;
+
+
 uint32_t* commList;
 uint32_t* staticDataArea;
 
@@ -53,6 +57,16 @@ uint32_t popStack(){
     return data;
 }
 
+void deleteFromStack(){
+    if (stackSize == 0){
+        exit(printf("Stack empty!\n"));
+    }
+
+    stackPointer--;
+    *stackPointer = 0;
+    stackSize--;
+}
+
 uint32_t readInt(){
     int input;
     scanf("%d", &input);
@@ -83,7 +97,7 @@ void releaseStackFrame(){
 
     stackPointer = framePointer;
     *framePointer = popStack();
-    stackSize -= frameSize;
+    stackSize -= frameSize; //TODO: Framesize berechnen wenn mehrere frames aufgebaut werden
 
 }
 
@@ -486,6 +500,27 @@ void exec(uint32_t commandCode[]){
                 progCounter = retAdress;
                 break;
             }
+
+            case DROP:{
+                for (int i = 0; i < immediate; ++i) {
+                    deleteFromStack();
+                }
+                break;
+            }
+
+            case PUSHR:{
+                uint32_t retVal = returnValueReg[returnValueRegIndex];
+                pushStack(retVal);
+                returnValueRegIndex--;
+                break;
+            }
+
+            case POPR:{
+                uint32_t retVal = popStack();
+                returnValueReg[returnValueRegIndex] = retVal;
+                returnValueRegIndex++;
+                break;
+            }
         }
     }
 
@@ -596,6 +631,7 @@ int main(int argc, char *argv[]) {
     stackPointer = stack;
     framePointer = stack;
     stackSize = 0;
+    returnValueRegIndex = 0;
 
     commandResponse(argv, argc);
 
