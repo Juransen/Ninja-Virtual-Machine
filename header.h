@@ -55,7 +55,7 @@
 #define GREATEREQUALS(val1, val2) val1 >= val2
 
 
-uint32_t progCode1[] = {
+/*uint32_t progCode1[] = {
         (PUSHC << 24) | IMMEDIATE(3),
         (PUSHC << 24) | IMMEDIATE(4),
         (ADD << 24),
@@ -87,4 +87,4 @@ uint32_t progCode3[] = {
         (PUSHC << 24) | IMMEDIATE('\n'),
         (WRCHR << 24),
         (HALT << 24)
-};
+};*/
