@@ -86,36 +86,40 @@ char readChar(){
 }
 
 void allocateStackFrame(uint32_t space){
-
-
-    pushStack((uint32_t)framePointer); // cast auf ein uint. die adresse des Pointers soll gespeichert werden
-    printf("stackpointerval %i\nFP: %i\n", stackPointer, framePointer);
+    printf("asf start\n");
+    pushStack((uint32_t) framePointer); // cast auf ein uint. die adresse des Pointers soll gespeichert werden
+    //printf("stackpointerval %i\nFP: %i\n", stackPointer, framePointer);
     framePointer = stackPointer;
     stackPointer = stackPointer + space;
     stackSize += space;
     //frameSize = space;
     frameSizes[countOfFrames] = space;
     countOfFrames++;
+    printf("asf stop\n");
 }
 
 void releaseStackFrame(){
 
     stackPointer = framePointer;
     *framePointer = popStack();
-    stackSize -= frameSizes[countOfFrames];
     countOfFrames--;
+    stackSize -= frameSizes[countOfFrames];
 
 }
 
 void pushLocalVar(uint32_t pos){
     //kopiert von der frame auf den Stack
-    printf("pos: %i\t fP: %i\t des: ", pos, *framePointer);
-    uint32_t *destionantion = framePointer + (pos*sizeof(uint32_t));
-    uint32_t input = *destionantion;
+    printf("stacksize: %i\t stackstart: %i\n", stackSize, (uint32_t) stack);
+    printf("pos: %i\t fP: %i\n", pos, (uint32_t) framePointer);
+    printf("uint32: %i\n", sizeof(uint32_t));
+    uint32_t *destination = framePointer + pos;
+    printf("dest: %i\n", destination);
+    uint32_t input = *destination;
+    printf("inp: %i\n", input);
 
     //printf("pushl: %i\tstack[%i]\tpos: %i\n", input, *destionantion, pos);
 
-    pushStack(input);
+    //pushStack(input);
 }
 
 void popLocalVariable(uint32_t pos){
@@ -320,7 +324,7 @@ void exec(uint32_t commandCode[]){
         uint32_t instruction = commandTable[progCounter];
         uint32_t immediate = IMMEDIATE(instruction);
         instruction = instruction >> 24;
-        printf("kein fisch\timme: %i\tinstr: %i\n", immediate, instruction);
+        printf("kein fisch\timme: %i\tinstr: %i\n", SIGN_EXTEND(immediate), instruction);
 
         if (debugMode){
             char commandStr[10];
@@ -507,9 +511,6 @@ void exec(uint32_t commandCode[]){
 
         switch(instruction) {
 
-            default:
-                break;
-
             case HALT:{
                 stop = true;
                 break;
@@ -568,6 +569,7 @@ void exec(uint32_t commandCode[]){
             }
 
             case WRINT:{
+                printf("start write\n");
                 uint32_t output = popStack();
                 //output = IMMEDIATE(output);
                 printf("%i", output);
@@ -611,7 +613,8 @@ void exec(uint32_t commandCode[]){
             }
 
             case PUSHL:{
-                printf("imme: %i", immediate);
+                printf("test\n");
+                printf("imme: %i\n", SIGN_EXTEND(immediate));
                 pushLocalVar(SIGN_EXTEND(immediate));
                 break;
             }
@@ -706,9 +709,9 @@ void exec(uint32_t commandCode[]){
             }
 
             case PUSHR:{
+                returnValueRegIndex--;
                 uint32_t retVal = returnValueReg[returnValueRegIndex];
                 pushStack(retVal);
-                returnValueRegIndex--;
                 break;
             }
 
@@ -725,7 +728,12 @@ void exec(uint32_t commandCode[]){
                 pushStack(duplicate);
                 break;
             }
+
+            default:
+                break;
         }
+
+        printf("FISCHE\n");
     }
 
     free(commList);
